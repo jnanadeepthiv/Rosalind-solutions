@@ -1,0 +1,43 @@
+from Bio import SeqIO
+from Bio.Seq import Seq
+
+# Specify the path to your FASTA file
+fasta_file = "/Users/sweety/Downloads/rosalind_splc-5.txt"
+
+# Read all sequences from the FASTA file and convert them to plain strings
+output_seq = [str(seq_record.seq) for seq_record in SeqIO.parse(fasta_file, "fasta")]
+
+# Create a Seq object for the main DNA sequence (first in the list)
+main_DNA_seq = Seq(output_seq[0])
+
+# List of intron sequences (remaining in the list)
+introns = output_seq[1:]
+
+# Remove intron sequences from the main DNA sequence
+for intron in introns:
+    main_DNA_seq_str = str(main_DNA_seq)
+    main_DNA_seq_str = main_DNA_seq_str.replace(intron, "")
+    main_DNA_seq = Seq(main_DNA_seq_str)
+
+# Check if the sequence is a multiple of 3 in length
+if len(main_DNA_seq) % 3 != 0:
+    raise ValueError("The length of the sequence is not a multiple of 3. Check for frame shifts or incorrect sequences.")
+
+# Compute the reverse complement of the processed DNA sequence
+template_DNA = main_DNA_seq
+print("Template DNA:", template_DNA)
+
+# Transcribe the reverse complement DNA sequence to mRNA
+m_RNA = template_DNA.transcribe()
+print("mRNA:", m_RNA)
+
+# Translate the mRNA sequence to a protein sequence
+protein = m_RNA.translate()
+print("Protein:", protein)
+# Your protein sequence with asterisks
+
+# Remove asterisks from the protein sequence
+cleaned_protein_sequence = protein.replace("*", "")
+
+print("Cleaned Protein Sequence:", cleaned_protein_sequence)
+
