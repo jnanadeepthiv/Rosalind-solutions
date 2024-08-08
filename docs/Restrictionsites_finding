@@ -1,0 +1,37 @@
+
+file_1 = "/Users/sweety/Downloads/rosalind_revp.txt"
+from Bio.Seq import Seq
+from Bio import SeqIO
+for seq_record in SeqIO.parse(file_1,"fasta"):
+    file_1 = Seq(str(seq_record.seq))
+output_file = []
+
+
+def is_reverse_compliment(sq):
+    return sq == sq.reverse_complement()
+
+
+for length in range(4, 13):
+    for start in range(len(file_1)- length +1):
+        sq = file_1[start:start + length]
+        if is_reverse_compliment(sq):
+            output_file.append((start+1,length))
+output_file.sort()
+
+for start,length in output_file:
+    print(start,length)
+
+
+
+# you have seq
+# you have to find how many reverse palindromes can be made of lenght from 4 to 12
+# first put the sequence
+# convert the seq to Seq object
+# then create a for loop to start finding palindromes from range 4 to 12 in the above seq
+# then start with first 4 bases to traverse along hte seq until end
+# output = list the index where the palindrome started and lenght that is 4
+# repeat this to 5,6,7,8,9,10,11,12 lenght palindrome of the sequence.
+
+
+
+
